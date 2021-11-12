@@ -9,33 +9,96 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        body {
-            background: url(images/bg-image.jpg) no-repeat;
-            background-size: cover;
-            height: 100vh;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div class="container">
-        <form class="col-md-6 m-auto py-5">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter a location for Weather ...">
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-danger">Search</button>
-                </div>
-            </div>
-        </form>
-        <div class="weather-status text-white text-center">
-            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
-            <h1>Dhaka</h1>
-            <h3><span>38.06</span>&deg;C</h3>
-            <h1 class="lead">Clouds</h1>
+    <div class="container d-flex justify-content-between">
+        <div>
+            <h2 id="c-names">Country Names</h2>
+            <ul id="country-list">
+            </ul>
         </div>
+        <div style="width: 50%;">
+            <form class="m-auto py-5">
+                <div class="input-group mb-3">
+                    <input id="city-name" type="text" class="form-control"
+                        placeholder="Enter a location for Weather ...">
+                    <div class="input-group-append">
+                        <button id="search-btn" type="button" class="btn btn-danger">Search</button>
+                    </div>
+                </div>
+            </form>
+            <div class="weather-status text-white text-center">
+                <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+                <h1 id="display-city">Dhaka</h1>
+                <h3><span id="display-temp">38.06</span>&deg;C</h3>
+                <h4 id="lead">Clouds</h4>
+            </div>
+            <div class="flag-area py-5">
+                <img id="flag" src="" width="200px" alt="Problem Loading Image" style="color: whitesmoke;">
+            </div>
+        </div>
+
     </div>
 
+
+    <script>
+        var cities = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Botswana", "Brazil", "British Indian Ocean Territory", "Brunei", "Bulgaria", "Burkina Faso", "Burma", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Christmas Island", "Cocos (Keeling) Islands", "Cook Islands", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Timor-Leste", "Tokelau", "Turks and Caicos Islands", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Faroe Islands", "Falkland Islands", "Fiji", "Finland", "France", "French Polynesia", "Gabon", "Gambia", "Georgia", "Gibraltar", "Germany", "Ghana", "Greece", "Greenland", "Guadeloupe", "Grenada", "Guernsey", "Guatemala", "Guam", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Hashemite Kingdom of Jordan", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Jersey", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea North", "Korea South", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Luxembourg", "Macedonia", "Madagascar", "Marshall Islands", "Macau", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Moldova", "Mongolia", "Montenegro", "Monaco", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Norway", "Niue", "Norfolk Island", "Northern Mariana Islands", "Oman", "Pakistan", "Pitcairn", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Korea", "Lithuania", "Qatar", "Romania", "Russia", "Rwanda", "Réunion", "Samoa", "Saint Lucia", "San Marino", "Saint Kitts and Nevis", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Saudi Arabia", "Senegal", "South Georgia and the South Sandwich Islands", "Sao Tome and Principe", "Sierra Leone", "Serbia", "Seychelles", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "Spain", "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City State (Holy See)", "Wallis and Futuna", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"];
+
+        for (let i = 0; i < cities.length; i++) {
+            const newEl = document.createElement("li");
+            newEl.innerText = cities[i];
+            document.getElementById("country-list").appendChild(newEl);
+        }
+        let searchedLocation = "london";
+
+        document.getElementById("search-btn").addEventListener('click', function (event) {
+            const cityName = document.getElementById("city-name").value;
+            searchedLocation = cityName;
+            let weatherLink = "http://api.openweathermap.org/data/2.5/weather?q=" + searchedLocation + "&units=metric&appid=88d748d2476b24e3f6603adddd8da3dd";
+            searchNow(weatherLink);
+            document.getElementById("city-name").value = "";
+            document.getElementById("flag").src = "";
+            searchedLocation = "";
+        })
+
+        function searchNow(weatherLink) {
+            fetch(weatherLink)
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data);
+                    document.getElementById("display-city").innerText = data.name;
+                    document.getElementById("display-temp").innerText = data.main.temp;
+                    document.getElementById("lead").innerText = data.weather[0].description;
+                    showFlag(data.name);
+                })
+        }
+        document.getElementById("country-list").addEventListener('click', function (event) {
+            // console.log(event.target.innerText);
+            // Loading the weather info with the user click
+            let weatherLink = "http://api.openweathermap.org/data/2.5/weather?q=" + event.target.innerText + "&units=metric&appid=88d748d2476b24e3f6603adddd8da3dd";
+            searchNow(weatherLink);
+            document.getElementById("city-name").value = "";
+
+            showFlag(event.target.innerText);
+        })
+
+        function showFlag(countryName) {
+            fetch("https://countriesnow.space/api/v0.1/countries/flag/images")
+                .then(response => response.json())
+                .then(image => {
+                    // console.log(image.data, countryName);
+                    const loadFlag = image.data.find(x => (x.name == countryName));
+                    if (loadFlag != undefined) {
+                        document.getElementById("flag").src = loadFlag.flag;
+                    }
+                    // console.log(loadFlag);
+                    // document.getElementById("flag").src = loadFlag.flag;
+                })
+        }
+
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,39 @@
+body {
+    background: url(images/bg-image.jpg) no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+#country-list {
+    height: 540px;
+    width: 350px;
+    overflow-y: scroll;
+    color: lightyellow;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none;
+    margin-top: 60px;
+    transition: focus 0.1s ease;
+}
+
+#country-list::-webkit-scrollbar {
+    display: none;
+}
+#country-list li:hover {
+    background-color: silver;
+    padding: 10px;
+    border-radius: 5px;
+    transition: transform 0.1s ease;
+}
+#country-list li:active {
+    transform: translateX(-10px);
+}
+#c-names {
+    margin-top: 10px;
+    color: whitesmoke;
+    margin-bottom: -20px;
+}
+.flag-area {
+    margin-left: 180px;
+}
