@@ -56,7 +56,7 @@
         document.getElementById("search-btn").addEventListener('click', function (event) {
             const cityName = document.getElementById("city-name").value;
             searchedLocation = cityName;
-            let weatherLink = "http://api.openweathermap.org/data/2.5/weather?q=" + searchedLocation + "&units=metric&appid=88d748d2476b24e3f6603adddd8da3dd";
+            let weatherLink = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedLocation + "&units=metric&appid=88d748d2476b24e3f6603adddd8da3dd";
             searchNow(weatherLink);
             document.getElementById("city-name").value = "";
             document.getElementById("flag").src = "";
