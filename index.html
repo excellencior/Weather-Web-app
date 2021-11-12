@@ -77,7 +77,7 @@
         document.getElementById("country-list").addEventListener('click', function (event) {
             // console.log(event.target.innerText);
             // Loading the weather info with the user click
-            let weatherLink = "http://api.openweathermap.org/data/2.5/weather?q=" + event.target.innerText + "&units=metric&appid=88d748d2476b24e3f6603adddd8da3dd";
+            let weatherLink = "https://api.openweathermap.org/data/2.5/weather?q=" + event.target.innerText + "&units=metric&appid=88d748d2476b24e3f6603adddd8da3dd";
             searchNow(weatherLink);
             document.getElementById("city-name").value = "";
 
